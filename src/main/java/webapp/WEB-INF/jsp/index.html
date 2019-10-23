@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/chat.css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	mui.plusReady(function(){
+      		plus.navigator.setStatusBarStyle("light");
+      		plus.navigator.setStatusBarBackground("#000000")
+      	})
+    </script>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav title">
+    <h1 class="mui-title title-color">Tchat</h1>
+</header>
+
+    <nav class="mui-bar mui-bar-tab">
+        <a class="mui-tab-item mui-active">
+            <span class="mui-icon mui-icon-weixin" tabindex="0"></span>
+            <span class="mui-tab-label">微信</span>
+        </a>
+        <a class="mui-tab-item">
+            <span class="mui-icon mui-icon-phone"tabindex="1"></span>
+            <span class="mui-tab-label">通讯录</span>
+        </a>
+        <a class="mui-tab-item">
+            <span class="mui-icon mui-icon-paperplane"tabindex="2"></span>
+            <span class="mui-tab-label">发现</span>
+        </a>
+        <a class="mui-tab-item">
+            <span class="mui-icon mui-icon-gear"tabindex="3"></span>
+            <span class="mui-tab-label">我</span>
+        </a>
+    </nav>
+    
+    		<script type="text/javascript">
+		 var TchatArray =[
+		 {
+		 	pageId:"ChatContext.html";
+		 	pageUrl:"ChatContext.html"
+		 },
+		 		 {
+		 	pageId:"ChatDiscover.html";
+		 	pageUrl:"ChatDiscover.html"
+		 },		 {
+		 	pageId:"ChatList.html";
+		 	pageUrl:"ChatList.html"
+		 },		 {
+		 	pageId:"ChatMy.html";
+		 	pageUrl:"ChatMy.html"
+		 },
+		 ];
+		 
+		 
+		 var TchatStyle={
+		 	top:"44px",
+		 	bottom:"50px"
+		 }
+		 mui.plusReady(function(){
+		 	//获取当前的webview对象
+		 	var webview=plus.webview.currentWebview();
+		//向当前的主页webview追加子叶的四张webview对象
+		  for (var i=0;i<TchatArray.length;i++){
+		  var page=	plus.webview.create(TchatArray[i].pageUrl,TchatArray[i].pageId,TchatStyle);
+				//隐藏webview窗口
+				page.hide();
+				//追加每个子页面到当前主页面
+				webview.append(page);
+		  
+		  }
+		plus.webview.show(TchatArray[0].pageId);
+		
+		//批量绑定tap事件，展示不同的页面
+		mui(".mui-bar-tab").on("tap","a",function(){
+			var tabIndex =this.getAttribute("tabIndex");
+		//显示点击的tab选项所对应的页面
+		plus.webview.show(TchatArray[tabIndex].pageId,"fade-in",200);
+			 
+			 //隐藏不需要的
+			 for (var i=0;i<TchatArray.length;i++){
+			 	if(i!=tabIndex){
+			 		plus.webview.hide(TchatArray[tabIndex].pageId,"fade-out",200)
+			 	}
+			 }
+		})
+		 })
+		 
+		</script>
+</body>
+</html>
